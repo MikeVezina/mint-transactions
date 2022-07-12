@@ -1,0 +1,10 @@
+# Flask
+# requests==2.27.1
+# ptvsd==4.3.2 # Required for debugging.
+mintapi
+google-cloud-bigquery[bqstorage,pandas]
+pandas~=1.4.1
+# gunicorn
+chromedriver-binary-auto
+python-dotenv
+google-cloud-secret-manager
