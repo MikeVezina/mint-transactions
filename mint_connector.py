@@ -33,20 +33,19 @@ class MintConnector:
 
             # Wait for accounts sync
             wait_for_sync=True,
-            wait_for_sync_timeout=5*60  # This option waits for sync
+            wait_for_sync_timeout=5 * 60  # This option waits for sync
         )
 
-
-
     def get_transactions_df(self, include_investment=False, start_date=None, end_date=None):
-        transactions = self.mint.get_transactions(include_investment, start_date, end_date)
+        transactions = self.mint.get_transaction_data(include_investment=include_investment, start_date=start_date,
+                                                      end_date=end_date, limit=2000000)
         transactions.loc[(transactions.transaction_type == 'debit'), 'transaction_type'] = 'Expense'
         transactions.loc[(transactions.transaction_type == 'credit'), 'transaction_type'] = 'Income'
         # transactions = transactions[transactions.category != 'credit card payment']
         return transactions
 
     def get_accounts_df(self):
-        accts = self.mint.get_accounts()
+        accts = self.mint.get_account_data(limit=2000000)
         df = pd.DataFrame(accts)
         df['insert_time'] = datetime.datetime.now()
         return df
