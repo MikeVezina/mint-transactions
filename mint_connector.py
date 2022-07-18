@@ -40,12 +40,13 @@ class MintConnector:
         # Max get_transaction_data limit is 100k
         transactions = self.mint.get_transaction_data(include_investment=include_investment, start_date=start_date,
                                                       end_date=end_date, limit=100000)
-        transactions = pd.json_normalize(transactions)
-        return transactions
+        df = pd.json_normalize(transactions, sep='_')
+        df['insert_time'] = datetime.datetime.now()
+        return df
 
     def get_accounts_df(self):
         # Max acct limit is 5k
         accts = self.mint.get_account_data(limit=5000)
-        df = pd.DataFrame(accts)
+        df = pd.json_normalize(accts, sep='_')
         df['insert_time'] = datetime.datetime.now()
         return df
